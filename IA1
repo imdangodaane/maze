@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+
+import sys
+
+
+#while True:
+#    mes = input()
+#    print(mes)
+#    if "HELLO" in mes:
+#        print("I AM QUI\n\n")
+#    if "YOU ARE" in mes:
+#        letter = mes.split()[2]
+#        print("OK\n\n")
+#    if "MAZE" in mes:
+#        break
+#print(letter)
+
+
+flag = 1
+while flag == 1:
+    x = input()
+    if "HELLO" in x:
+        print("I AM QUI\n")
+    if "YOU ARE" in x:
+        print("OK\n")
+    if "MAZE" in x:
+
+        f = open('map', 'w')
+        f.write('')
+        f.close()
+
+        f = open('goal', 'w')
+        f.write('')
+        f.close()
+
+        f = open('pos', 'w')
+        f.write('')
+        f.close()
+
+        while len(x) > 0:
+            x = input()
+            f = open('map', 'a')
+            f.write(x + '\n')
+            f.close()
+
+        f = open('map', 'r')
+        mapp = f.read()
+        current_map = mapp.split('\n')
+        f.close()
+
+        for y in range(len(current_map)):
+            for x in range(len(current_map[y])):
+                if current_map[y][x] == 'o':
+                    f = open('goal', 'a')
+                    f.write(str((x, y)) + '\n')
+                    f.close()
+                if current_map[y][x] == 'A':
+                    f = open('pos', 'w')
+                    f.write(str((x, y)))
+                    f.close()
+
+        print("haha\n")
