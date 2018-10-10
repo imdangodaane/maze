@@ -27,6 +27,36 @@ def analysisAndMove(cur_pos, nearest_pos):
         return 'MOVE UP'
 
 
+def findPath(current_pos, resource_pos, available_move):
+    direction = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+    path = {}
+
+    order = 1
+    path[order] = []
+    path[order].append(current_pos)
+
+    while resource_pos[0] not in path[order]:
+        f = open('path', 'a')
+        f.write(str(path.items()))
+        f.write(str(path[order]))
+        f.write(str(resource_pos[0]))
+        f.close()
+        order += 1
+        for i in direction:
+            for j in path[order - 1]:
+                if j in available_move:
+                    temp_available_move = available_move.remove(j)
+                else:
+                    temp_available_move = available_move
+                temp_pos = (j[0] + i[0], j[1] + i[1])
+                if temp_pos in temp_available_move:
+                    try:
+                        path[order].append(temp_pos)
+                    except:
+                        path[order] = []
+                        path[order].append(temp_pos)
+
+
 while True:
     x = input()
     if 'HELLO' in x:
@@ -56,5 +86,6 @@ while True:
             nearest_resource = findNearest(rare_resource, current_pos)
         else:
             nearest_resource = findNearest(normal_resource, current_pos)
+        findPath(current_pos, normal_resource, available_move)
 
         print(analysisAndMove(current_pos, nearest_resource) + '\n')
