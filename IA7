@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+def findPath(maze, start, goal, available_move):
+    direction = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    temp_available_move = list(available_move)
+    temp_available_move.remove(current)
+
+    path = []
+    level_search = {}
+
+    current = start
+    level_search[current] = set()
+
+    for d in direction:
+        temp_pos = (current[0] + d[0], current[1] + d[1])
+        if temp_pos in temp_available_move:
+            level_search[current].add(temp_pos)
+            temp_available_move.remove(temp_pos)
+
+    continue_flag = 1
+
+    while continue_flag == 1:
+        for i in level_search[current]:
+            if maze[i[0]][i[1]] == 'o':
+                continue_flag = 0
+                path.append(i)
+                break
+            else:
+                level_search[i] = set()
+                for d in direction:
+                    temp_pos = (i[0] + d[0], i[1] + d[1])
+                    if temp_pos in temp_available_move:
+                        level_search[i].add(temp_pos)
+                        temp_available_move.remove(temp_pos)
+    
+    search_key = path[0]
+
+    while search_key != start:
+        for key, values in level_search.items():
+            for value in values:
+                if value == search_key:
+                    search_key = key
+                    path.append(search_key)
+                    break
